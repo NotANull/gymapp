@@ -17,13 +17,11 @@ public class Customer extends User{
     private Membership membership;
     private List<Routine> assignedRoutines;
 
-    public Customer(Long id, String name, String lastname, String dni, String phoneNumber, String emergencyPhoneNumber, Adress adress, LocalDate enrollmentDate, Membership membership) {
-        super(id, name, lastname, dni, phoneNumber, emergencyPhoneNumber, adress);
+    public Customer(Long id, String name, String lastname, String dni, String username, String password, String email, String phoneNumber, String emergencyPhoneNumber, Adress adress, LocalDate enrollmentDate, Membership membership, List<Routine> assignedRoutines) {
+        super(id, name, lastname, dni, username, password, email, phoneNumber, emergencyPhoneNumber, adress);
         this.enrollmentDate = enrollmentDate;
         this.membership = membership;
         this.assignedRoutines = new ArrayList<>();
     }
-
-
 }
 
