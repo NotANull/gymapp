@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Routine {
 
-    private Professor professor;
-    private Customer customer;
+    private ProfessorProfile professor;
+    private CustomerProfile customer;
     private String name;
     private int sets;
     private String reps;

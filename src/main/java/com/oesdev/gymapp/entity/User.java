@@ -1,37 +1,29 @@
 package com.oesdev.gymapp.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@MappedSuperclass
-public abstract class User {
+@AllArgsConstructor
+@Entity
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String lastname;
-    private String dni;
-    private String username;
+    private String dni; //Unique
+    private String username; //Unique
     private String password;
-    private String email;
+    private String email; //Unique
     private String phoneNumber;
     private String emergencyPhoneNumber;
+    @Embedded
     private Adress adress;
+    private Role role;
 
-    public User(Long id, String name, String lastname, String dni, String username, String password, String email, String phoneNumber, String emergencyPhoneNumber, Adress adress) {
-        this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.dni = dni;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.emergencyPhoneNumber = emergencyPhoneNumber;
-        this.adress = adress;
-    }
+    public User() {}
 
     public Long getId() {
         return id;
@@ -73,14 +65,6 @@ public abstract class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -111,5 +95,13 @@ public abstract class User {
 
     public void setAdress(Adress adress) {
         this.adress = adress;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
