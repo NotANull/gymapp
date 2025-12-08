@@ -10,14 +10,24 @@ public class User {
     private Long id;
     private String name;
     private String lastname;
+
+    @Column(unique = true)
     private String dni; //Unique
+
+    @Column(unique = true)
     private String username; //Unique
+
     private String password;
+
+    @Column(unique = true)
     private String email; //Unique
+
     private String phoneNumber;
     private String emergencyPhoneNumber;
+
     @Embedded
     private Adress adress;
+
     private Role role;
 
     public User() {}
