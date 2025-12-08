@@ -1,10 +1,7 @@
 package com.oesdev.gymapp.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Entity
 public class User {
 
@@ -25,12 +22,21 @@ public class User {
 
     public User() {}
 
-    public Long getId() {
-        return id;
+    public User(Long id, String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Adress adress, Role role) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.dni = dni;
+        this.username = username;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.emergencyPhoneNumber = emergencyPhoneNumber;
+        this.adress = adress;
+        this.role = role;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -63,6 +69,10 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
