@@ -1,10 +1,6 @@
 package com.oesdev.gymapp.dto.request;
 
-import com.oesdev.gymapp.entity.Adress;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -37,8 +33,10 @@ public class CreateUserRequest {
     @Pattern(regexp = "^\\+?[0-9\\s\\-()]{7,20}$\n")
     private String phoneNumber;
 
+    @Pattern(regexp = "^\\+?[0-9\\s\\-()]{7,20}$\n")
     private String emergencyPhoneNumber;
 
-    private Adress adress;
+    @NotNull
+    private CreateAdressRequest adress;
 
 }

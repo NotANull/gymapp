@@ -1,14 +1,12 @@
 package com.oesdev.gymapp.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 //Remove the Lombok annotations in case JPA/Hibernate fails. Generate getters, setters and constructors
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter @Setter
 @Embeddable
 public class Adress {
 

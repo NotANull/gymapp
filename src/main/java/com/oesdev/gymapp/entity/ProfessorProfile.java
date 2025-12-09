@@ -16,7 +16,7 @@ public class ProfessorProfile {
 
     private List<Routine> createdRoutines;
     private List<String> specialties;
-    private List<LocalDate>  availability;
+    private List<LocalDate> availability;
     private User user;
 
 }
