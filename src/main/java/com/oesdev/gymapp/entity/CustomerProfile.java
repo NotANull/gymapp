@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 public class CustomerProfile{
 
-    private LocalDate enrollmentDate;
     private Membership membership;
     private List<Routine> assignedRoutines;
     private User user;
