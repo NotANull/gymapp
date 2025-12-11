@@ -1,9 +1,6 @@
 package com.oesdev.gymapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
@@ -16,10 +13,15 @@ public class CustomerProfile{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "membership_id", unique = true)
     private Membership membership;
+
     private List<Routine> assignedRoutines;
 
     @NotNull
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     public CustomerProfile() {}
