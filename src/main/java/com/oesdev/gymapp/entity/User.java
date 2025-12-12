@@ -8,7 +8,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String lastname;
 
     @Column(unique = true)
@@ -28,6 +30,7 @@ public class User {
     @Embedded
     private Adress adress;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     public User() {}

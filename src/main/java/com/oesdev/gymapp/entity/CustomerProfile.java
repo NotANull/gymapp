@@ -14,9 +14,10 @@ public class CustomerProfile{
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "membership_id", unique = true)
+    @JoinColumn(name = "membership_id")
     private Membership membership;
 
+    @OneToMany(mappedBy = "customer")
     private List<Routine> assignedRoutines;
 
     @NotNull

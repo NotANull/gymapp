@@ -1,9 +1,7 @@
 package com.oesdev.gymapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,9 +14,28 @@ public class ProfessorProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToMany(mappedBy = "professor")
     private List<Routine> createdRoutines;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "professor_specialties",
+            joinColumns = @JoinColumn(name = "professor_id")
+    )
+    @Column(name = "specialty")
     private List<String> specialties;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "professor_availability",
+            joinColumns = @JoinColumn(name = "professor_id")
+    )
+    @Column(name = "available_date")
     private List<LocalDate> availability;
+
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
     public ProfessorProfile() {}
