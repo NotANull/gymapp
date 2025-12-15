@@ -1,4 +1,4 @@
-package com.oesdev.gymapp.entity;
+package com.oesdev.gymapp.enums;
 
 public enum Status {
 

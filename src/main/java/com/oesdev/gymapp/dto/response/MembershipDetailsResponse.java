@@ -1,8 +1,7 @@
-package com.oesdev.gymapp.entity;
+package com.oesdev.gymapp.dto.response;
 
 import com.oesdev.gymapp.enums.PlanType;
 import com.oesdev.gymapp.enums.Status;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -10,20 +9,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-@Entity
-public class Membership {
+@Builder
+public class MembershipDetailsResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Enumerated(EnumType.STRING)
     private PlanType planName;
-
     private double price;
-
     private LocalDate enrollmentDate;
-
-    @Enumerated(EnumType.STRING)
     private Status status;
+
 }

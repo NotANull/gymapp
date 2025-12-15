@@ -22,6 +22,7 @@ public class CreateCustomerRequest {
     @NotNull
     private Membership membership;
 
+    @NotNull
     private List<CreateRoutineRequest> assignedRoutines;
 
     @NotNull

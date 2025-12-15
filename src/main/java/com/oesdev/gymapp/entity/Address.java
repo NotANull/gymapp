@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter @Setter
 @Embeddable
-public class Adress {
+public class Address {
 
     private String street;
     private String number;

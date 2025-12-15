@@ -1,4 +1,4 @@
-package com.oesdev.gymapp.dto.request;
+package com.oesdev.gymapp.dto.response;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter @Setter
 @Builder
-public class CreateAdressRequest {
+public class AddressDetailsResponse {
 
     private String street;
     private String number;

@@ -1,8 +1,5 @@
 package com.oesdev.gymapp.dto.response;
 
-//Cambiar los imports cuando se crean los demás DTO's
-import com.oesdev.gymapp.entity.CustomerProfile;
-import com.oesdev.gymapp.entity.ProfessorProfile;
 import lombok.*;
 
 @AllArgsConstructor
@@ -12,8 +9,8 @@ import lombok.*;
 public class RoutineDetailsResponse {
 
     private Long id;
-    private ProfessorProfile professor;
-    private CustomerProfile customer;
+    private ProfessorDetailsResponse professor;
+    private CustomerDetailsResponse customer;
     private String name;
     private int sets;
     private String reps;
