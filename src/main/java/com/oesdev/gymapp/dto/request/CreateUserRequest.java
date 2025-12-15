@@ -1,5 +1,6 @@
 package com.oesdev.gymapp.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -21,22 +22,26 @@ public class CreateUserRequest {
     private String dni;
 
     @Size(min = 5, message = "El nombre de usuario debe tener 5 o más carácteres")
+    @NotBlank
     private String username;
 
+    @Size(min = 7, max = 20)
+    @NotBlank
     private String password;
 
     @NotBlank
     @Email
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
     private String email;
 
-    @Pattern(regexp = "^\\+?[0-9\\s\\-()]{7,20}$\n")
+    @Pattern(regexp = "^\\+?[0-9\\s\\-()]{7,20}$")
+    @NotBlank
     private String phoneNumber;
 
-    @Pattern(regexp = "^\\+?[0-9\\s\\-()]{7,20}$\n")
+    @Pattern(regexp = "^\\+?[0-9\\s\\-()]{7,20}$")
     private String emergencyPhoneNumber;
 
+    @Valid
     @NotNull
-    private CreateAddressRequest adress;
+    private CreateAddressRequest address;
 
 }
