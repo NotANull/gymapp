@@ -1,5 +1,7 @@
 package com.oesdev.gymapp.dto.request;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -11,11 +13,13 @@ import java.util.List;
 @Builder
 public class CreateProfessorRequest {
 
-    private List<CreateRoutineRequest> createdRoutines;
+
     private List<String> specialties;
+
     private List<LocalDate> availability;
 
-    @NonNull
+    @Valid
+    @NotNull
     private CreateUserRequest user;
 
 }

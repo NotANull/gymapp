@@ -1,5 +1,6 @@
 package com.oesdev.gymapp.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
@@ -21,6 +22,7 @@ public class CreateCustomerRequest {
 
     private List<CreateRoutineRequest> assignedRoutines;
 
+    @Valid
     @NotNull
     private CreateUserRequest user;
 
