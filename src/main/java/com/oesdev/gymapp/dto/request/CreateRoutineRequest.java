@@ -1,7 +1,6 @@
 package com.oesdev.gymapp.dto.request;
 
-import com.oesdev.gymapp.entity.ProfessorProfile;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -10,17 +9,25 @@ import lombok.*;
 @Builder
 public class CreateRoutineRequest {
 
-    @NotNull
-    private CreateProfessorRequest professor;
-
-    @NotNull
-    private CreateCustomerRequest customer;
-
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String name;
+
+    @Positive
     private int sets;
+
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String reps;
+
+    @PositiveOrZero
     private int rest;
-    private double load;
+
+    @PositiveOrZero
+    @NotNull
+    private Double load;
+
+    @Positive
     private int frequency;
 
 }
