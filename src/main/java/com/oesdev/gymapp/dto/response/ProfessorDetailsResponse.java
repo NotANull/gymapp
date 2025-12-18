@@ -12,7 +12,6 @@ import java.util.List;
 public class ProfessorDetailsResponse {
 
     private Long id;
-    private List<RoutineDetailsResponse> createdRoutines;
     private List<String> specialties;
     private List<LocalDate> availability;
     private UserDetailsResponse user;

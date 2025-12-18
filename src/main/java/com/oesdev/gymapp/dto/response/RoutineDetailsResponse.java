@@ -9,8 +9,6 @@ import lombok.*;
 public class RoutineDetailsResponse {
 
     private Long id;
-    private ProfessorDetailsResponse professor;
-    private CustomerDetailsResponse customer;
     private String name;
     private int sets;
     private String reps;
