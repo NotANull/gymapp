@@ -55,8 +55,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex, HttpServletRequest request) {
 
-        String message = ex.getBindingResult()
-                .getFieldErrors()
+        String message = ex.getBindingResult() //gets all validation errors
+                .getFieldErrors() //there can be more than one validation error per field
                 .stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .findFirst()
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                ex.getMessage(),
+                message,
                 request.getRequestURI()
         );
 
