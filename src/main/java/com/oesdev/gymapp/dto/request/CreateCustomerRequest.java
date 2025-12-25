@@ -14,9 +14,6 @@ import java.util.List;
 @Builder
 public class CreateCustomerRequest {
 
-    @PastOrPresent
-    private LocalDate enrollmentDate;
-
     @NotNull
     private CreateMembershipRequest membership;
 
