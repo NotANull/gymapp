@@ -3,6 +3,7 @@ package com.oesdev.gymapp.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class CustomerProfile{
     @OneToMany(mappedBy = "customer")
     private List<Routine> assignedRoutines;
 
+    private LocalDate enrollmentDate;
+
     @NotNull
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)
@@ -27,18 +30,11 @@ public class CustomerProfile{
 
     public CustomerProfile() {}
 
-    public CustomerProfile(Membership membership, List<Routine> assignedRoutines, User user) {
+    public CustomerProfile(Membership membership, LocalDate enrollmentDate, User user) {
         this.membership = membership;
         this.assignedRoutines = new ArrayList<>();
+        this.enrollmentDate = enrollmentDate;
         this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Membership getMembership() {
@@ -55,6 +51,14 @@ public class CustomerProfile{
 
     public void setAssignedRoutines(List<Routine> assignedRoutines) {
         this.assignedRoutines = assignedRoutines;
+    }
+
+    public LocalDate getEnrollmentDate() {
+        return enrollmentDate;
+    }
+
+    public void setEnrollmentDate(LocalDate enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
     }
 
     public User getUser() {
