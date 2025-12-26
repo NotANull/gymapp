@@ -23,11 +23,4 @@ public class CreateMembershipRequest {
     @Positive
     private BigDecimal price;
 
-    @NotNull
-    @PastOrPresent
-    private LocalDate enrollmentDate;
-
-    @NotNull
-    private Status status;
-
 }
