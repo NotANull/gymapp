@@ -5,6 +5,7 @@ import com.oesdev.gymapp.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -20,9 +21,7 @@ public class Membership {
     @Enumerated(EnumType.STRING)
     private PlanType planName;
 
-    private double price;
-
-    private LocalDate enrollmentDate;
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     private Status status;
