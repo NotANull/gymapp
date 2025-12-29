@@ -1,6 +1,10 @@
 package com.oesdev.gymapp.mapper;
 
 import com.oesdev.gymapp.dto.request.CreateCustomerRequest;
+import com.oesdev.gymapp.dto.response.AddressDetailsResponse;
+import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
+import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
+import com.oesdev.gymapp.dto.response.UserDetailsResponse;
 import com.oesdev.gymapp.entity.*;
 import com.oesdev.gymapp.enums.Status;
 import org.springframework.stereotype.Component;
@@ -41,6 +45,40 @@ public class CustomerMapper {
         customer.setEnrollmentDate(LocalDate.now());
         customer.setUser(user);
         return customer;
+    }
+
+    public CustomerDetailsResponse toCustomerResponse(CustomerProfile entity) {
+
+        CustomerDetailsResponse response = new CustomerDetailsResponse();
+
+        MembershipDetailsResponse membershipResponse = new MembershipDetailsResponse(); //✔
+        membershipResponse.setId(entity.getMembership().getId());
+        membershipResponse.setPlanName(entity.getMembership().getPlanName());
+        membershipResponse.setPrice(entity.getMembership().getPrice());
+        membershipResponse.setStatus(entity.getMembership().getStatus());
+
+        UserDetailsResponse userResponse = new UserDetailsResponse(); //✔
+        userResponse.setId(entity.getUser().getId());
+        userResponse.setName(entity.getUser().getName());
+        userResponse.setLastname(entity.getUser().getLastname());
+        userResponse.setDni(entity.getUser().getDni());
+        userResponse.setEmail(entity.getUser().getEmail());
+        userResponse.setPhoneNumber(entity.getUser().getPhoneNumber());
+        userResponse.setEmergencyPhoneNumber(entity.getUser().getEmergencyPhoneNumber());
+
+        AddressDetailsResponse addressResponse = new AddressDetailsResponse(); //✔
+        addressResponse.setStreet(entity.getUser().getAdress().getStreet());
+        addressResponse.setNumber(entity.getUser().getAdress().getNumber());
+        addressResponse.setCity(entity.getUser().getAdress().getCity());
+        addressResponse.setCountry(entity.getUser().getAdress().getCountry());
+
+        userResponse.setAddress(addressResponse);
+
+        response.setId(entity.getId());
+        response.setMembership(membershipResponse);
+        response.setUser(userResponse);
+
+        return response;
     }
 
 }
