@@ -3,9 +3,11 @@ package com.oesdev.gymapp.mapper;
 import com.oesdev.gymapp.dto.request.CreateCustomerRequest;
 import com.oesdev.gymapp.entity.*;
 import com.oesdev.gymapp.enums.Status;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Component
 public class CustomerMapper {
 
     public CustomerProfile toCustomerProfile(CreateCustomerRequest request) {
