@@ -4,6 +4,7 @@ import com.oesdev.gymapp.enums.PlanType;
 import com.oesdev.gymapp.enums.Status;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class MembershipDetailsResponse {
 
     private Long id;
     private PlanType planName;
-    private double price;
+    private BigDecimal price;
     private LocalDate enrollmentDate;
     private Status status;
 
