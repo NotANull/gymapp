@@ -41,6 +41,10 @@ public class CustomerProfile{
         return membership;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public void setMembership(Membership membership) {
         this.membership = membership;
     }
