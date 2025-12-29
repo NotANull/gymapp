@@ -16,7 +16,6 @@ public class MembershipDetailsResponse {
     private Long id;
     private PlanType planName;
     private BigDecimal price;
-    private LocalDate enrollmentDate;
     private Status status;
 
 }
