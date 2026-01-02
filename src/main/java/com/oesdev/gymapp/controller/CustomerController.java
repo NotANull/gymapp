@@ -1,6 +1,7 @@
 package com.oesdev.gymapp.controller;
 
 import com.oesdev.gymapp.dto.request.CreateCustomerRequest;
+import com.oesdev.gymapp.dto.request.UpdateCustomerRequest;
 import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 import com.oesdev.gymapp.service.ICustomerService;
 import jakarta.validation.Valid;
@@ -44,7 +45,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerDetailsResponse> updateCustomer(@PathVariable Long id, @RequestBody @Valid CreateCustomerRequest request) {
+    public ResponseEntity<CustomerDetailsResponse> updateCustomer(@PathVariable Long id, @RequestBody @Valid UpdateCustomerRequest request) {
         CustomerDetailsResponse response = this.iCustomerService.updateCustomer(id, request);
         return ResponseEntity.ok(response);
     }

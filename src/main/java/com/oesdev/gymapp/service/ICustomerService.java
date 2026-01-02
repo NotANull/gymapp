@@ -1,6 +1,7 @@
 package com.oesdev.gymapp.service;
 
 import com.oesdev.gymapp.dto.request.CreateCustomerRequest;
+import com.oesdev.gymapp.dto.request.UpdateCustomerRequest;
 import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ICustomerService {
 
     List<CustomerDetailsResponse> getAllCustomers();
 
-    CustomerDetailsResponse updateCustomer(Long id, CreateCustomerRequest request);
+    CustomerDetailsResponse updateCustomer(Long id, UpdateCustomerRequest request);
 
     void deleteCustomer(Long id);
 }
