@@ -1,6 +1,9 @@
 package com.oesdev.gymapp.mapper;
 
 import com.oesdev.gymapp.dto.request.CreateCustomerRequest;
+import com.oesdev.gymapp.dto.request.UpdateAddressRequest;
+import com.oesdev.gymapp.dto.request.UpdateCustomerRequest;
+import com.oesdev.gymapp.dto.request.UpdateUserRequest;
 import com.oesdev.gymapp.dto.response.AddressDetailsResponse;
 import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
@@ -33,7 +36,7 @@ public class CustomerMapper {
         user.setEmail(request.getUser().getEmail());
         user.setPhoneNumber(request.getUser().getPhoneNumber());
         user.setEmergencyPhoneNumber(request.getUser().getEmergencyPhoneNumber());
-        user.setAdress(address);
+        user.setAddress(address);
 
         Membership membership = new Membership(); //✔
         membership.setPlanName(request.getMembership().getPlanName());
@@ -67,10 +70,10 @@ public class CustomerMapper {
         userResponse.setEmergencyPhoneNumber(entity.getUser().getEmergencyPhoneNumber());
 
         AddressDetailsResponse addressResponse = new AddressDetailsResponse(); //✔
-        addressResponse.setStreet(entity.getUser().getAdress().getStreet());
-        addressResponse.setNumber(entity.getUser().getAdress().getNumber());
-        addressResponse.setCity(entity.getUser().getAdress().getCity());
-        addressResponse.setCountry(entity.getUser().getAdress().getCountry());
+        addressResponse.setStreet(entity.getUser().getAddress().getStreet());
+        addressResponse.setNumber(entity.getUser().getAddress().getNumber());
+        addressResponse.setCity(entity.getUser().getAddress().getCity());
+        addressResponse.setCountry(entity.getUser().getAddress().getCountry());
 
         userResponse.setAddress(addressResponse);
 
@@ -79,6 +82,57 @@ public class CustomerMapper {
         response.setUser(userResponse);
 
         return response;
+    }
+
+    public void updateCustomerFromRequest(CustomerProfile originalEntity, UpdateCustomerRequest request) {
+
+        if (request.getUser() != null) {
+            updateUserRequest(originalEntity.getUser(), request.getUser());
+        }
+
+    }
+
+    private void updateUserRequest(User user, UpdateUserRequest request) {
+
+        if(request.getName() != null){
+            user.setName(request.getName());
+        }
+        if(request.getLastname() != null){
+            user.setLastname(request.getLastname());
+        }
+        if(request.getPassword() != null){
+            user.setPassword(request.getPassword());
+        }
+        if(request.getEmail() != null){
+            user.setEmail(request.getEmail());
+        }
+        if(request.getPhoneNumber() != null){
+            user.setPhoneNumber(request.getPhoneNumber());
+        }
+        if(request.getEmergencyPhoneNumber() != null){
+            user.setEmergencyPhoneNumber(request.getEmergencyPhoneNumber());
+        }
+        if(request.getAddress() != null){
+            updateAddressRequest(user.getAddress(), request.getAddress());
+        }
+
+    }
+
+    private void updateAddressRequest(Address address, UpdateAddressRequest request) {
+
+        if(request.getStreet() != null) {
+            address.setStreet(request.getStreet());
+        }
+        if(request.getNumber() != null) {
+            address.setNumber(request.getNumber());
+        }
+        if(request.getCity() != null) {
+            address.setCity(request.getCity());
+        }
+        if(request.getCountry() != null) {
+            address.setCountry(request.getCountry());
+        }
+
     }
 
 }
