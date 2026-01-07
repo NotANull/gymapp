@@ -4,9 +4,12 @@ import com.oesdev.gymapp.dto.request.CreateCustomerRequest;
 import com.oesdev.gymapp.dto.request.UpdateCustomerRequest;
 import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 import com.oesdev.gymapp.entity.CustomerProfile;
+import com.oesdev.gymapp.entity.Membership;
 import com.oesdev.gymapp.exception.CustomerNotFoundException;
+import com.oesdev.gymapp.exception.MembershipNotFoundException;
 import com.oesdev.gymapp.mapper.CustomerMapper;
 import com.oesdev.gymapp.repository.ICustomerRepository;
+import com.oesdev.gymapp.repository.IMembershipRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,20 +18,24 @@ import java.util.List;
 public class CustomerServiceImp implements ICustomerService{
 
     private final ICustomerRepository iCustomerRepository;
+    private final IMembershipRepository iMembershipRepository;
     private final CustomerMapper customerMapper;
 
-    public CustomerServiceImp(ICustomerRepository iCustomerRepository, CustomerMapper customerMapper) {
+    public CustomerServiceImp(ICustomerRepository iCustomerRepository, IMembershipRepository iMembershipRepository, CustomerMapper customerMapper) {
         this.iCustomerRepository = iCustomerRepository;
+        this.iMembershipRepository = iMembershipRepository;
         this.customerMapper = customerMapper;
     }
 
     @Override
     public CustomerDetailsResponse createCustomer(CreateCustomerRequest request) {
 
-        CustomerProfile entity = this.customerMapper.toCustomerProfile(request);
-        this.iCustomerRepository.save(entity);
+        Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
+        CustomerProfile customerEntity = this.customerMapper.toCustomerProfile(request);
+        customerEntity.setMembership(membershipEntity);
+        this.iCustomerRepository.save(customerEntity);
 
-        return this.customerMapper.toCustomerResponse(entity);
+        return this.customerMapper.toCustomerResponse(customerEntity);
 
     }
 
