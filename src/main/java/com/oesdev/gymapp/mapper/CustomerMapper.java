@@ -1,15 +1,11 @@
 package com.oesdev.gymapp.mapper;
 
-import com.oesdev.gymapp.dto.request.CreateCustomerRequest;
-import com.oesdev.gymapp.dto.request.UpdateAddressRequest;
-import com.oesdev.gymapp.dto.request.UpdateCustomerRequest;
-import com.oesdev.gymapp.dto.request.UpdateUserRequest;
+import com.oesdev.gymapp.dto.request.*;
 import com.oesdev.gymapp.dto.response.AddressDetailsResponse;
 import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
 import com.oesdev.gymapp.dto.response.UserDetailsResponse;
 import com.oesdev.gymapp.entity.*;
-import com.oesdev.gymapp.enums.Status;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -21,30 +17,11 @@ public class CustomerMapper {
 
         CustomerProfile customer = new CustomerProfile();
 
-        Address address = new Address();
-        address.setStreet(request.getUser().getAddress().getStreet());
-        address.setNumber(request.getUser().getAddress().getNumber());
-        address.setCity(request.getUser().getAddress().getCity());
-        address.setCountry(request.getUser().getAddress().getCountry());
+        Address address = this.toAddress(request.getUser().getAddress());
 
-        User user = new User(); //✔
-        user.setName(request.getUser().getName());
-        user.setLastname(request.getUser().getLastname());
-        user.setDni(request.getUser().getDni());
-        user.setUsername(request.getUser().getUsername());
-        user.setPassword(request.getUser().getPassword());
-        user.setEmail(request.getUser().getEmail());
-        user.setPhoneNumber(request.getUser().getPhoneNumber());
-        user.setEmergencyPhoneNumber(request.getUser().getEmergencyPhoneNumber());
+        User user = this.toUser(request.getUser());
         user.setAddress(address);
 
-        Membership membership = new Membership(); //✔
-        membership.setPlanName(request.getMembership().getPlanName());
-        membership.setPrice(request.getMembership().getPrice());
-        membership.setStatus(Status.ACTIVE); //When a customer is created, the status starts as ACTIVE
-
-
-        customer.setMembership(membership);
         customer.setEnrollmentDate(LocalDate.now());
         customer.setUser(user);
         return customer;
@@ -132,6 +109,33 @@ public class CustomerMapper {
         if(request.getCountry() != null) {
             address.setCountry(request.getCountry());
         }
+
+    }
+
+    private User toUser(CreateUserRequest request) {
+
+        User user = new User();
+        user.setName(request.getName());
+        user.setLastname(request.getLastname());
+        user.setDni(request.getDni());
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setEmergencyPhoneNumber(request.getEmergencyPhoneNumber());
+
+        return user;
+    }
+
+    private Address toAddress(CreateAddressRequest request) {
+
+        Address address = new Address();
+        address.setStreet(request.getStreet());
+        address.setNumber(request.getNumber());
+        address.setCity(request.getCity());
+        address.setCountry(request.getCountry());
+
+        return address;
 
     }
 
