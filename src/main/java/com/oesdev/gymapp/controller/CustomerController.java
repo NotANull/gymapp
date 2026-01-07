@@ -21,12 +21,6 @@ public class CustomerController {
         this.iCustomerService = iCustomerService;
     }
 
-    //Only test
-    /*@GetMapping("/{id}")
-    public String getCustomer(@PathVariable Long id) {
-        return "hola cliente con id " + id;
-    }*/
-
     @PostMapping
     public ResponseEntity<CustomerDetailsResponse> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
         CustomerDetailsResponse response = this.iCustomerService.createCustomer(request);
