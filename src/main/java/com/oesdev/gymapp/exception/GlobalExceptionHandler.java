@@ -24,6 +24,19 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(MembershipNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMembershipNotFound(MembershipNotFoundException ex, HttpServletRequest request) {
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
     @ExceptionHandler(CustomerSuspendedException.class)
     public ResponseEntity<ErrorResponse> handleCustomerSuspended(CustomerSuspendedException ex, HttpServletRequest request) {
 
