@@ -24,7 +24,10 @@ public class CustomerProfile{
     private LocalDate enrollmentDate;
 
     @NotNull
-    @OneToOne
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
