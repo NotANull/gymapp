@@ -11,7 +11,7 @@ import lombok.*;
 public class CreateCustomerRequest {
 
     @NotNull
-    private CreateMembershipRequest membership;
+    private Long membershipId;
 
     @Valid
     @NotNull
