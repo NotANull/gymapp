@@ -95,11 +95,14 @@ public class GlobalExceptionHandler {
         if(rootCause.getMessage() != null) {
 
             String errorMessage = rootCause.getMessage(); //get all the exceptions that could arise from duplicate fields.
+            int firstCharPosition = errorMessage.indexOf('(');
+            int lastCharPosition = errorMessage.indexOf(')');
+            String nameField = errorMessage.substring((firstCharPosition+1), lastCharPosition);
 
-            message = switch (errorMessage) {
-                case "uk_user_dni" -> "DNI already exists";
-                case "uk_user_email" -> "Email already exists";
-                case "uk_user_username" -> "Username already exists";
+            message = switch (nameField) {
+                case "dni" -> "DNI already exists";
+                case "email" -> "Email already exists";
+                case "username" -> "Username already exists";
                 default -> message;
             };
         }
