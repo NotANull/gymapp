@@ -6,6 +6,7 @@ import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 import com.oesdev.gymapp.entity.CustomerProfile;
 import com.oesdev.gymapp.entity.Membership;
 import com.oesdev.gymapp.enums.Role;
+import com.oesdev.gymapp.enums.Status;
 import com.oesdev.gymapp.exception.CustomerNotFoundException;
 import com.oesdev.gymapp.exception.MembershipNotFoundException;
 import com.oesdev.gymapp.mapper.CustomerMapper;
@@ -33,6 +34,7 @@ public class CustomerServiceImp implements ICustomerService{
 
         Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
         CustomerProfile customerEntity = this.customerMapper.toCustomerProfile(request);
+        customerEntity.getUser().setStatus(Status.ACTIVE); //Once a customer pays for their membership, they can access their user account. Future check
         customerEntity.getUser().setRole(Role.CUSTOMER); //When a customer is created, their role must be assigned
         customerEntity.setMembership(membershipEntity);
         this.iCustomerRepository.save(customerEntity);

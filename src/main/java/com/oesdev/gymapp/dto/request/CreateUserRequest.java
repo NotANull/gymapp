@@ -19,6 +19,7 @@ public class CreateUserRequest {
     private String lastname;
 
     @Pattern(regexp = "^[0-9]{7,8}$", message = "El DNI debe tener solo números (7 a 8 dígitos)")
+    @NotBlank
     private String dni;
 
     @Size(min = 5, message = "El nombre de usuario debe tener 5 o más carácteres")

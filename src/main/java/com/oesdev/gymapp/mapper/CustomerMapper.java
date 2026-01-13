@@ -15,16 +15,16 @@ public class CustomerMapper {
 
     public CustomerProfile toCustomerProfile(CreateCustomerRequest request) {
 
-        CustomerProfile customer = new CustomerProfile();
+        CustomerProfile customerEntity = new CustomerProfile();
 
-        Address address = this.toAddress(request.getUser().getAddress());
+        Address addressEntity = this.toAddress(request.getUser().getAddress());
 
-        User user = this.toUser(request.getUser());
-        user.setAddress(address);
+        User userEntity = this.toUser(request.getUser());
+        userEntity.setAddress(addressEntity);
 
-        customer.setEnrollmentDate(LocalDate.now());
-        customer.setUser(user);
-        return customer;
+        customerEntity.setEnrollmentDate(LocalDate.now());
+        customerEntity.setUser(userEntity);
+        return customerEntity;
     }
 
     public CustomerDetailsResponse toCustomerResponse(CustomerProfile entity) {
@@ -35,7 +35,7 @@ public class CustomerMapper {
         membershipResponse.setId(entity.getMembership().getId());
         membershipResponse.setPlanName(entity.getMembership().getPlanName());
         membershipResponse.setPrice(entity.getMembership().getPrice());
-        membershipResponse.setStatus(entity.getMembership().getStatus());
+        membershipResponse.setStatus(entity.getUser().getStatus());
 
         UserDetailsResponse userResponse = new UserDetailsResponse(); //✔
         userResponse.setId(entity.getUser().getId());
@@ -76,6 +76,9 @@ public class CustomerMapper {
         }
         if(request.getLastname() != null){
             user.setLastname(request.getLastname());
+        }
+        if(request.getDni() != null) {
+            user.setDni(request.getDni());
         }
         if(request.getPassword() != null){
             user.setPassword(request.getPassword());

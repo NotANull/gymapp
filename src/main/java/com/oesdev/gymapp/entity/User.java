@@ -1,6 +1,7 @@
 package com.oesdev.gymapp.entity;
 
 import com.oesdev.gymapp.enums.Role;
+import com.oesdev.gymapp.enums.Status;
 import jakarta.persistence.*;
 
 @Entity
@@ -35,9 +36,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public User() {}
 
-    public User(Long id, String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Role role) {
+    public User(Long id, String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Role role, Status status) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -48,10 +52,15 @@ public class User {
         this.emergencyPhoneNumber = emergencyPhoneNumber;
         this.address = address;
         this.role = role;
+        this.status = status;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -84,10 +93,6 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {
@@ -128,5 +133,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

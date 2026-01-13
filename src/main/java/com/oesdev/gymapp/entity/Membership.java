@@ -22,6 +22,4 @@ public class Membership {
 
     private BigDecimal price;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
 }

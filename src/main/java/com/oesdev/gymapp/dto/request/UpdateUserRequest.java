@@ -15,6 +15,8 @@ public class UpdateUserRequest {
 
     private String lastname;
 
+    private String dni;
+
     private String username;
 
     private String password;
