@@ -45,10 +45,12 @@ public class CustomerServiceImp implements ICustomerService{
 
     @Override
     public CustomerDetailsResponse getCustomer(Long id) {
-        //Para más adelante, validar los estados
+
+        //Future implementation: validate states
         CustomerProfile entity = this.iCustomerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
 
         return this.customerMapper.toCustomerResponse(entity);
+
     }
 
     @Override
