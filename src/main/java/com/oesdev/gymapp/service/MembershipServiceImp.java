@@ -3,6 +3,7 @@ package com.oesdev.gymapp.service;
 import com.oesdev.gymapp.dto.request.CreateMembershipRequest;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
 import com.oesdev.gymapp.entity.Membership;
+import com.oesdev.gymapp.exception.MembershipNotFoundException;
 import com.oesdev.gymapp.mapper.MembershipMapper;
 import com.oesdev.gymapp.repository.IMembershipRepository;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,19 @@ public class MembershipServiceImp implements IMembershipService {
 
     @Override
     public MembershipDetailsResponse getMembership(Long id) {
-        return null;
+
+        Membership membershipEntity = this.iMembershipRepository.findById(id).orElseThrow(() -> new MembershipNotFoundException(id));
+
+        return this.membershipMapper.toMembershipResponse(membershipEntity);
     }
 
     @Override
     public List<MembershipDetailsResponse> getAllMemberships() {
-        return List.of();
+
+        return this.iMembershipRepository.findAll().stream()
+                .map(this.membershipMapper::toMembershipResponse)
+                .toList();
+
     }
 
     @Override
