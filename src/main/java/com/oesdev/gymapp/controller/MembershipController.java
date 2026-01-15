@@ -2,10 +2,12 @@ package com.oesdev.gymapp.controller;
 
 import com.oesdev.gymapp.dto.request.CreateMembershipRequest;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
+import com.oesdev.gymapp.service.IMembershipService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -28,8 +30,10 @@ public class MembershipController {
 
     @GetMapping("{id}")
     public ResponseEntity<MembershipDetailsResponse> getMembership(@PathVariable Long id) {
+
         MembershipDetailsResponse response = this.iMembershipService.getMembership(id);
         return ResponseEntity.ok(response);
+
     }
 
     @GetMapping
@@ -38,15 +42,19 @@ public class MembershipController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<MembershipDetailsResponse> updateMembership(@PathVariable Long id, @RequestBody updateMembershipRequest request) {
-        MembershipDetailsResponse response = this.iMembershipService.updateMembership(id, request);
+    public ResponseEntity<MembershipDetailsResponse> updateMembership(@PathVariable Long id, BigDecimal newPrice) {
+
+        MembershipDetailsResponse response = this.iMembershipService.updateMembership(id, newPrice);
         return ResponseEntity.ok(response);
+
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteMembership(@PathVariable Long id) {
+
         this.iMembershipService.deleteMembership(id);
         return ResponseEntity.noContent().build();
+
     }
 
 }
