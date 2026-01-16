@@ -1,6 +1,7 @@
 package com.oesdev.gymapp.mapper;
 
 import com.oesdev.gymapp.dto.request.CreateMembershipRequest;
+import com.oesdev.gymapp.dto.request.updateMembershipRequest;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
 import com.oesdev.gymapp.entity.Membership;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,14 @@ public class MembershipMapper {
         response.setPrice(entity.getPrice());
 
         return response;
+    }
+
+    public void updateMembershipFromRequest(Membership originalEntity, updateMembershipRequest request) {
+
+        if (request != null) {
+            originalEntity.setPrice(request.getPrice());
+        }
+
     }
 
 }
