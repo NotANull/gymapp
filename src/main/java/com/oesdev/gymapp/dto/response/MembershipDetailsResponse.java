@@ -16,6 +16,5 @@ public class MembershipDetailsResponse {
     private Long id;
     private PlanType planName;
     private BigDecimal price;
-    private Status status;
 
 }
