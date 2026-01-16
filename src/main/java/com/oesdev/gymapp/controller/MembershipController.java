@@ -1,13 +1,14 @@
 package com.oesdev.gymapp.controller;
 
 import com.oesdev.gymapp.dto.request.CreateMembershipRequest;
+import com.oesdev.gymapp.dto.request.updateMembershipRequest;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
 import com.oesdev.gymapp.service.IMembershipService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class MembershipController {
     }
 
     @PostMapping
-    public ResponseEntity<MembershipDetailsResponse> createMembership(@RequestBody CreateMembershipRequest request) {
+    public ResponseEntity<MembershipDetailsResponse> createMembership(@RequestBody @Valid CreateMembershipRequest request) {
 
         MembershipDetailsResponse response = this.iMembershipService.createMembership(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -42,9 +43,9 @@ public class MembershipController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<MembershipDetailsResponse> updateMembership(@PathVariable Long id, BigDecimal newPrice) {
+    public ResponseEntity<MembershipDetailsResponse> updateMembership(@PathVariable Long id, @RequestBody @Valid updateMembershipRequest request) {
 
-        MembershipDetailsResponse response = this.iMembershipService.updateMembership(id, newPrice);
+        MembershipDetailsResponse response = this.iMembershipService.updateMembership(id, request);
         return ResponseEntity.ok(response);
 
     }

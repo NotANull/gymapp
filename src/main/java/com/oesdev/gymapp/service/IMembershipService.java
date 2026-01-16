@@ -1,9 +1,9 @@
 package com.oesdev.gymapp.service;
 
 import com.oesdev.gymapp.dto.request.CreateMembershipRequest;
+import com.oesdev.gymapp.dto.request.updateMembershipRequest;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface IMembershipService {
@@ -14,7 +14,7 @@ public interface IMembershipService {
 
     List<MembershipDetailsResponse> getAllMemberships();
 
-    MembershipDetailsResponse updateMembership(Long id, BigDecimal newPrice);
+    MembershipDetailsResponse updateMembership(Long id, updateMembershipRequest request);
 
     void deleteMembership(Long id);
 }
