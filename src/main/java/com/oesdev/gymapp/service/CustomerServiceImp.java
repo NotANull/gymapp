@@ -66,9 +66,7 @@ public class CustomerServiceImp implements ICustomerService{
     public CustomerDetailsResponse updateCustomer(Long id, UpdateCustomerRequest request) {
 
         CustomerProfile customerEntity = this.iCustomerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
-
         this.customerMapper.updateCustomerFromRequest(customerEntity, request);
-
         this.iCustomerRepository.save(customerEntity);
 
         return this.customerMapper.toCustomerResponse(customerEntity);
@@ -78,9 +76,7 @@ public class CustomerServiceImp implements ICustomerService{
     public void deleteCustomer(Long id) {
 
         //Besides deleting the customer, we could also manage customer statuses, such as ACTIVE, EXPIRED, etc.
-
         this.iCustomerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
-
         this.iCustomerRepository.deleteById(id);
 
     }
