@@ -1,5 +1,6 @@
 package com.oesdev.gymapp.dto.response;
 
+import com.oesdev.gymapp.enums.Status;
 import lombok.*;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public class CustomerDetailsResponse {
     private MembershipDetailsResponse membership;
     private List<RoutineDetailsResponse> assignedRoutines;
     private UserDetailsResponse user;
+    private Status status;
 
 }
