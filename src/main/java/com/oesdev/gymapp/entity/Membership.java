@@ -20,6 +20,7 @@ public class Membership {
     @Enumerated(EnumType.STRING)
     private PlanType planName;
 
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
 }
