@@ -35,7 +35,6 @@ public class CustomerMapper {
         membershipResponse.setId(entity.getMembership().getId());
         membershipResponse.setPlanName(entity.getMembership().getPlanName());
         membershipResponse.setPrice(entity.getMembership().getPrice());
-        membershipResponse.setStatus(entity.getUser().getStatus());
 
         UserDetailsResponse userResponse = new UserDetailsResponse(); //✔
         userResponse.setId(entity.getUser().getId());
@@ -57,6 +56,7 @@ public class CustomerMapper {
         response.setId(entity.getId());
         response.setMembership(membershipResponse);
         response.setUser(userResponse);
+        response.setStatus(entity.getUser().getStatus());
 
         return response;
     }
