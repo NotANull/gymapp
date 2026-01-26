@@ -41,8 +41,7 @@ public class User {
 
     public User() {}
 
-    public User(Long id, String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Role role, Status status) {
-        this.id = id;
+    public User(String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Role role, Status status) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
