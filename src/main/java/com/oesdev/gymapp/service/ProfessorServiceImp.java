@@ -3,6 +3,7 @@ package com.oesdev.gymapp.service;
 import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
 import com.oesdev.gymapp.dto.request.UpdateProfessorRequest;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
+import com.oesdev.gymapp.entity.ProfessorProfile;
 import com.oesdev.gymapp.mapper.ProfessorMapper;
 import com.oesdev.gymapp.repository.IProfessorRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,11 @@ public class ProfessorServiceImp implements IProfessorService{
 
     @Override
     public ProfessorDetailsResponse createProfessor(CreateProfessorRequest request) {
-        return null;
+
+        ProfessorProfile professorEntity = this.professorMapper.toEntity(request);
+        this.iProfessorRepository.save(professorEntity);
+
+        return this.professorMapper.toResponse(professorEntity);
     }
 
     @Override
