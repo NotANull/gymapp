@@ -8,6 +8,10 @@ import com.oesdev.gymapp.entity.ProfessorProfile;
 import com.oesdev.gymapp.entity.User;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class ProfessorMapper {
 
@@ -26,8 +30,15 @@ public class ProfessorMapper {
     public ProfessorDetailsResponse toResponse(ProfessorProfile professorEntity) {
 
         ProfessorDetailsResponse professorResponse = new ProfessorDetailsResponse();
+        List<String> specialitiesResponse = new ArrayList<>(professorEntity.getSpecialties());
+        List<LocalDate> availabilityResponse = new ArrayList<>(professorEntity.getAvailability());
 
-        return null;
+        professorResponse.setId(professorEntity.getId());
+        professorResponse.setSpecialties(specialitiesResponse);
+        professorResponse.setAvailability(availabilityResponse);
+        professorResponse.setUser(this.toUserResponse(professorEntity.getUser()));
+
+        return professorResponse;
 
     }
 
@@ -46,7 +57,7 @@ public class ProfessorMapper {
         return user;
     }
 
-    private UserDetailsResponse toResponse(User response) {
+    private UserDetailsResponse toUserResponse(User response) {
 
         UserDetailsResponse userResponse = new UserDetailsResponse();
         userResponse.setName(response.getName());
