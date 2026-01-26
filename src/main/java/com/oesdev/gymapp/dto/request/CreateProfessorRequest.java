@@ -13,11 +13,6 @@ import java.util.List;
 @Builder
 public class CreateProfessorRequest {
 
-
-    private List<String> specialties;
-
-    private List<LocalDate> availability;
-
     @Valid
     @NotNull
     private CreateUserRequest user;
