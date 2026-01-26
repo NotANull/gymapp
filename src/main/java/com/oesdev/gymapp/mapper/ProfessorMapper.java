@@ -27,6 +27,8 @@ public class ProfessorMapper {
 
         ProfessorDetailsResponse professorResponse = new ProfessorDetailsResponse();
 
+        return null;
+
     }
 
     private User toUser(CreateUserRequest request) {
