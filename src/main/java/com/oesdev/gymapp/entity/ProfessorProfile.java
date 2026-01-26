@@ -40,8 +40,7 @@ public class ProfessorProfile {
 
     public ProfessorProfile() {}
 
-    public ProfessorProfile(Long id, User user) {
-        this.id = id;
+    public ProfessorProfile(User user) {
         this.createdRoutines = new ArrayList<>();
         this.specialties = new ArrayList<>();
         this.availability = new ArrayList<>();
