@@ -12,6 +12,7 @@ import com.oesdev.gymapp.exception.MembershipNotFoundException;
 import com.oesdev.gymapp.mapper.CustomerMapper;
 import com.oesdev.gymapp.repository.ICustomerRepository;
 import com.oesdev.gymapp.repository.IMembershipRepository;
+import com.oesdev.gymapp.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +22,13 @@ public class CustomerServiceImp implements ICustomerService{
 
     private final ICustomerRepository iCustomerRepository;
     private final IMembershipRepository iMembershipRepository;
+    private final IUserRepository iUserRepository;
     private final CustomerMapper customerMapper;
 
-    public CustomerServiceImp(ICustomerRepository iCustomerRepository, IMembershipRepository iMembershipRepository, CustomerMapper customerMapper) {
+    public CustomerServiceImp(ICustomerRepository iCustomerRepository, IMembershipRepository iMembershipRepository, IUserRepository iUserRepository, CustomerMapper customerMapper) {
         this.iCustomerRepository = iCustomerRepository;
         this.iMembershipRepository = iMembershipRepository;
+        this.iUserRepository = iUserRepository;
         this.customerMapper = customerMapper;
     }
 
@@ -33,9 +36,12 @@ public class CustomerServiceImp implements ICustomerService{
     public CustomerDetailsResponse createCustomer(CreateCustomerRequest request) {
 
         Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
+
         CustomerProfile customerEntity = this.customerMapper.toCustomerProfile(request);
         customerEntity.getUser().setStatus(Status.ACTIVE); //Once a customer pays for their membership, they can access their user account. Future check
         customerEntity.getUser().setRole(Role.CUSTOMER); //When a customer is created, their role must be assigned
+        this.iUserRepository.save(customerEntity.getUser());
+
         customerEntity.setMembership(membershipEntity);
         this.iCustomerRepository.save(customerEntity);
 
