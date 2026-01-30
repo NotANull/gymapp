@@ -1,9 +1,12 @@
 package com.oesdev.gymapp.mapper;
 
+import com.oesdev.gymapp.dto.request.CreateAddressRequest;
 import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
 import com.oesdev.gymapp.dto.request.CreateUserRequest;
+import com.oesdev.gymapp.dto.response.AddressDetailsResponse;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
 import com.oesdev.gymapp.dto.response.UserDetailsResponse;
+import com.oesdev.gymapp.entity.Address;
 import com.oesdev.gymapp.entity.ProfessorProfile;
 import com.oesdev.gymapp.entity.User;
 import org.springframework.stereotype.Component;
@@ -18,14 +21,11 @@ public class ProfessorMapper {
 
     public ProfessorProfile toEntity(CreateProfessorRequest request) {
 
-        //ProfessorProfile professorEntity = new ProfessorProfile();
-
         return new ProfessorProfile(
                 this.toUser(request.getUser())
         );
 
     }
-
 
     public ProfessorDetailsResponse toResponse(ProfessorProfile professorEntity) {
 
@@ -53,8 +53,21 @@ public class ProfessorMapper {
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setEmergencyPhoneNumber(request.getEmergencyPhoneNumber());
+        user.setAddress(this.toAddress(request.getAddress()));
 
         return user;
+    }
+
+    private Address toAddress(CreateAddressRequest request) {
+
+        Address address = new Address();
+        address.setStreet(request.getStreet());
+        address.setNumber(request.getNumber());
+        address.setCity(request.getCity());
+        address.setCountry(request.getCountry());
+
+        return address;
+
     }
 
     private UserDetailsResponse toUserResponse(User response) {
@@ -66,8 +79,20 @@ public class ProfessorMapper {
         userResponse.setEmail(response.getEmail());
         userResponse.setPhoneNumber(response.getPhoneNumber());
         userResponse.setEmergencyPhoneNumber(response.getEmergencyPhoneNumber());
+        userResponse.setAddress(this.toAddressResponse(response.getAddress()));
 
         return userResponse;
 
+    }
+
+    private AddressDetailsResponse toAddressResponse(Address response) {
+
+        AddressDetailsResponse addressResponse = new AddressDetailsResponse();
+        addressResponse.setStreet(response.getStreet());
+        addressResponse.setNumber(response.getNumber());
+        addressResponse.setCity(response.getCity());
+        addressResponse.setCountry(response.getCountry());
+
+        return addressResponse;
     }
 }

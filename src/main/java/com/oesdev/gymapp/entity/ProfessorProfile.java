@@ -33,9 +33,8 @@ public class ProfessorProfile {
     @Column(name = "available_date")
     private List<LocalDate> availability;
 
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "user_id", unique = true)
+    @OneToOne(optional = false)
+    @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
     public ProfessorProfile() {}

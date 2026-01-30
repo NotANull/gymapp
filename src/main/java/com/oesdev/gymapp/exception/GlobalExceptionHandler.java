@@ -29,6 +29,20 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(ProfessorNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProfessorNotFound(ProfessorNotFoundException ex, HttpServletRequest request) {
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+
+    }
+
     @ExceptionHandler(MembershipNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMembershipNotFound(MembershipNotFoundException ex, HttpServletRequest request) {
 
