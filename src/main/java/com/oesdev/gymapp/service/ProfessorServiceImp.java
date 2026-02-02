@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class ProfessorServiceImp implements IProfessorService{
 
     private final IProfessorRepository iProfessorRepository;
@@ -29,6 +30,7 @@ public class ProfessorServiceImp implements IProfessorService{
     }
 
     @Override
+    @Transactional
     public ProfessorDetailsResponse createProfessor(CreateProfessorRequest request) {
 
         ProfessorProfile professorEntity = this.professorMapper.toEntity(request);
@@ -52,16 +54,28 @@ public class ProfessorServiceImp implements IProfessorService{
 
     @Override
     public List<ProfessorDetailsResponse> getProfessors() {
-        return List.of();
+        return this.iProfessorRepository.findAll().stream()
+                .map(this.professorMapper::toResponse)
+                .toList();
     }
 
     @Override
+    @Transactional
     public ProfessorDetailsResponse updateProfessor(Long id, UpdateProfessorRequest request) {
-        return null;
+
+        ProfessorProfile professorEntity = this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
+        this.professorMapper.updateProfessorFromRequest(professorEntity, request);
+        this.iProfessorRepository.save(professorEntity);
+
+        return this.professorMapper.toResponse(professorEntity);
     }
 
     @Override
+    @Transactional
     public void deleteProfessor(Long id) {
+
+        this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
+        this.iProfessorRepository.deleteById(id);
 
     }
 }
