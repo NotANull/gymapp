@@ -8,10 +8,12 @@ import com.oesdev.gymapp.exception.MembershipNotFoundException;
 import com.oesdev.gymapp.mapper.MembershipMapper;
 import com.oesdev.gymapp.repository.IMembershipRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class MembershipServiceImp implements IMembershipService {
 
     private final IMembershipRepository iMembershipRepository;
@@ -23,6 +25,7 @@ public class MembershipServiceImp implements IMembershipService {
     }
 
     @Override
+    @Transactional
     public MembershipDetailsResponse createMembership(CreateMembershipRequest request) {
 
         Membership membershipEntity = this.membershipMapper.toMembership(request);
@@ -49,6 +52,7 @@ public class MembershipServiceImp implements IMembershipService {
     }
 
     @Override
+    @Transactional
     public MembershipDetailsResponse updateMembership(Long id, updateMembershipRequest request) {
 
         Membership membershipEntity = this.iMembershipRepository.findById(id).orElseThrow(() -> new MembershipNotFoundException(id));
@@ -59,6 +63,7 @@ public class MembershipServiceImp implements IMembershipService {
     }
 
     @Override
+    @Transactional
     public void deleteMembership(Long id) {
 
         Membership membershipEntity = this.iMembershipRepository.findById(id).orElseThrow(() -> new MembershipNotFoundException(id));
