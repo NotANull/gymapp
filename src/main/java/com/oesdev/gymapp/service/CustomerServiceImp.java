@@ -14,10 +14,12 @@ import com.oesdev.gymapp.repository.ICustomerRepository;
 import com.oesdev.gymapp.repository.IMembershipRepository;
 import com.oesdev.gymapp.repository.IUserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class CustomerServiceImp implements ICustomerService{
 
     private final ICustomerRepository iCustomerRepository;
@@ -33,6 +35,7 @@ public class CustomerServiceImp implements ICustomerService{
     }
 
     @Override
+    @Transactional
     public CustomerDetailsResponse createCustomer(CreateCustomerRequest request) {
 
         Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
@@ -69,6 +72,7 @@ public class CustomerServiceImp implements ICustomerService{
     }
 
     @Override
+    @Transactional
     public CustomerDetailsResponse updateCustomer(Long id, UpdateCustomerRequest request) {
 
         CustomerProfile customerEntity = this.iCustomerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
@@ -79,6 +83,7 @@ public class CustomerServiceImp implements ICustomerService{
     }
 
     @Override
+    @Transactional
     public void deleteCustomer(Long id) {
 
         //Besides deleting the customer, we could also manage customer statuses, such as ACTIVE, EXPIRED, etc.
