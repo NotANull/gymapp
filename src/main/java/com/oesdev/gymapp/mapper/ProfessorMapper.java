@@ -1,14 +1,13 @@
 package com.oesdev.gymapp.mapper;
 
-import com.oesdev.gymapp.dto.request.CreateAddressRequest;
-import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
-import com.oesdev.gymapp.dto.request.CreateUserRequest;
+import com.oesdev.gymapp.dto.request.*;
 import com.oesdev.gymapp.dto.response.AddressDetailsResponse;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
 import com.oesdev.gymapp.dto.response.UserDetailsResponse;
 import com.oesdev.gymapp.entity.Address;
 import com.oesdev.gymapp.entity.ProfessorProfile;
 import com.oesdev.gymapp.entity.User;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -39,6 +38,59 @@ public class ProfessorMapper {
         professorResponse.setUser(this.toUserResponse(professorEntity.getUser()));
 
         return professorResponse;
+
+    }
+
+    public void updateProfessorFromRequest(ProfessorProfile professorEntity, UpdateProfessorRequest request) {
+
+        if (request.getUser() != null) {
+            updateUserRequest(professorEntity.getUser(), request.getUser());
+        }
+
+    }
+
+    private void updateUserRequest(User user, UpdateUserRequest request) {
+
+        if (request.getName() != null) {
+            user.setName(request.getName());
+        }
+        if (request.getLastname() != null) {
+            user.setLastname(request.getLastname());
+        }
+        if (request.getDni() != null) {
+            user.setDni(request.getDni());
+        }
+        if (request.getPassword() != null) {
+            user.setPassword(request.getPassword());
+        }
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+        if (request.getPhoneNumber() != null) {
+            user.setPhoneNumber(request.getPhoneNumber());
+        }
+        if (request.getEmergencyPhoneNumber() != null) {
+            user.setEmergencyPhoneNumber(request.getEmergencyPhoneNumber());
+        }
+        if(request.getAddress() != null){
+            updateAddressRequest(user.getAddress(), request.getAddress());
+        }
+    }
+
+    private void updateAddressRequest(Address address, UpdateAddressRequest request) {
+
+        if(request.getStreet() != null) {
+            address.setStreet(request.getStreet());
+        }
+        if(request.getNumber() != null) {
+            address.setNumber(request.getNumber());
+        }
+        if(request.getCity() != null) {
+            address.setCity(request.getCity());
+        }
+        if(request.getCountry() != null) {
+            address.setCountry(request.getCountry());
+        }
 
     }
 
@@ -95,4 +147,6 @@ public class ProfessorMapper {
 
         return addressResponse;
     }
+
+
 }
