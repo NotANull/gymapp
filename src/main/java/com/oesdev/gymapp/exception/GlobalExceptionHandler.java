@@ -15,8 +15,12 @@ import java.util.Arrays;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCustomerNotFound(CustomerNotFoundException ex, HttpServletRequest request) {
+    @ExceptionHandler({
+            CustomerNotFoundException.class,
+            ProfessorNotFoundException.class,
+            MembershipNotFoundException.class
+    })
+    public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex, HttpServletRequest request) {
 
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
@@ -27,33 +31,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 
-    }
-
-    @ExceptionHandler(ProfessorNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleProfessorNotFound(ProfessorNotFoundException ex, HttpServletRequest request) {
-
-        ErrorResponse response = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-
-    }
-
-    @ExceptionHandler(MembershipNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleMembershipNotFound(MembershipNotFoundException ex, HttpServletRequest request) {
-
-        ErrorResponse response = new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                ex.getMessage(),
-                request.getRequestURI()
-        );
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(CustomerSuspendedException.class)
