@@ -1,5 +1,6 @@
 package com.oesdev.gymapp.entity;
 
+import com.oesdev.gymapp.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -33,16 +34,20 @@ public class ProfessorProfile {
     @Column(name = "available_date")
     private List<LocalDate> availability;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
     public ProfessorProfile() {}
 
-    public ProfessorProfile(User user) {
+    public ProfessorProfile(Status status, User user) {
         this.createdRoutines = new ArrayList<>();
         this.specialties = new ArrayList<>();
         this.availability = new ArrayList<>();
+        this.status = status;
         this.user = user;
     }
 
@@ -76,6 +81,14 @@ public class ProfessorProfile {
 
     public void setAvailability(List<LocalDate> availability) {
         this.availability = availability;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public User getUser() {

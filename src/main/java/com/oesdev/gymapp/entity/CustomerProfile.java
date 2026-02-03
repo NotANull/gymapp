@@ -1,5 +1,6 @@
 package com.oesdev.gymapp.entity;
 
+import com.oesdev.gymapp.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,16 +24,20 @@ public class CustomerProfile{
 
     private LocalDate enrollmentDate;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
     public CustomerProfile() {}
 
-    public CustomerProfile(Membership membership, LocalDate enrollmentDate, User user) {
+    public CustomerProfile(Membership membership, LocalDate enrollmentDate, Status status, User user) {
         this.membership = membership;
         this.assignedRoutines = new ArrayList<>();
         this.enrollmentDate = enrollmentDate;
+        this.status = status;
         this.user = user;
     }
 
@@ -62,6 +67,14 @@ public class CustomerProfile{
 
     public void setEnrollmentDate(LocalDate enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public User getUser() {
