@@ -4,6 +4,7 @@ import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
 import com.oesdev.gymapp.dto.request.UpdateProfessorRequest;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
 import com.oesdev.gymapp.entity.ProfessorProfile;
+import com.oesdev.gymapp.entity.User;
 import com.oesdev.gymapp.enums.Role;
 import com.oesdev.gymapp.enums.Status;
 import com.oesdev.gymapp.exception.ProfessorNotFoundException;
@@ -35,16 +36,19 @@ public class ProfessorServiceImp implements IProfessorService{
 
         ProfessorProfile professorEntity = this.professorMapper.toEntity(request);
 
-        professorEntity.getUser().setStatus(Status.ACTIVE);
-        professorEntity.getUser().setRole(Role.PROFESSOR);
-        this.iUserRepository.save(professorEntity.getUser());
+        User userEntity = professorEntity.getUser();
+        userEntity.setActive(true);
+        //user.addRole(Role.PROFESSOR);
+
+        professorEntity.setStatus(Status.ACTIVE);
+
+        this.iUserRepository.save(userEntity);
         this.iProfessorRepository.save(professorEntity);
 
         return this.professorMapper.toResponse(professorEntity);
     }
 
     @Override
-    @Transactional
     public ProfessorDetailsResponse getProfessor(Long id) {
 
         ProfessorProfile professorEntity = this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
@@ -74,8 +78,9 @@ public class ProfessorServiceImp implements IProfessorService{
     @Transactional
     public void deleteProfessor(Long id) {
 
-        this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
-        this.iProfessorRepository.deleteById(id);
+        ProfessorProfile professorEntity = this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
+        professorEntity.setStatus(Status.CANCELLED);
+        this.iProfessorRepository.save(professorEntity);
 
     }
 }
