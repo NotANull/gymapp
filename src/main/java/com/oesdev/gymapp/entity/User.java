@@ -36,12 +36,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean active = true; //Only for allow or deny access
 
     public User() {}
 
-    public User(String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Role role, Status status) {
+    public User(String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Role role, boolean active) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
@@ -51,7 +51,7 @@ public class User {
         this.emergencyPhoneNumber = emergencyPhoneNumber;
         this.address = address;
         this.role = role;
-        this.status = status;
+        this.active = active;
     }
 
     public Long getId() {
@@ -134,11 +134,11 @@ public class User {
         this.role = role;
     }
 
-    public Status getStatus() {
-        return status;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
