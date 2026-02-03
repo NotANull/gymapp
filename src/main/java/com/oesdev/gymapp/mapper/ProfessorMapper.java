@@ -7,6 +7,7 @@ import com.oesdev.gymapp.dto.response.UserDetailsResponse;
 import com.oesdev.gymapp.entity.Address;
 import com.oesdev.gymapp.entity.ProfessorProfile;
 import com.oesdev.gymapp.entity.User;
+import com.oesdev.gymapp.enums.Status;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class ProfessorMapper {
     public ProfessorProfile toEntity(CreateProfessorRequest request) {
 
         return new ProfessorProfile(
-                this.toUser(request.getUser())
+                Status.ACTIVE, this.toUser(request.getUser())
         );
 
     }
