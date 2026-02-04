@@ -38,7 +38,7 @@ public class ProfessorServiceImp implements IProfessorService{
 
         User userEntity = professorEntity.getUser();
         userEntity.setActive(true);
-        //user.addRole(Role.PROFESSOR);
+        userEntity.addRoles(Role.PROFESSOR);
 
         professorEntity.setStatus(Status.ACTIVE);
 
@@ -61,6 +61,15 @@ public class ProfessorServiceImp implements IProfessorService{
         return this.iProfessorRepository.findAll().stream()
                 .map(this.professorMapper::toResponse)
                 .toList();
+    }
+
+    @Override
+    public List<ProfessorDetailsResponse> getProfessorsByStatus(Status status) {
+
+        return this.iProfessorRepository.findAllByStatus(status).stream()
+                .map(this.professorMapper::toResponse)
+                .toList();
+
     }
 
     @Override
