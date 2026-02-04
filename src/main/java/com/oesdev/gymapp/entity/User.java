@@ -4,6 +4,10 @@ import com.oesdev.gymapp.enums.Role;
 import com.oesdev.gymapp.enums.Status;
 import jakarta.persistence.*;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -33,15 +37,21 @@ public class User {
     @Embedded
     private Address address;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id")
+    )
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(name = "role")
+    private Set<Role> roles = new HashSet<>();
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean active = true; //Only for allow or deny access
 
     public User() {}
 
-    public User(String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Role role, boolean active) {
+    public User(String name, String lastname, String dni, String username, String email, String phoneNumber, String emergencyPhoneNumber, Address address, Set<Role> roles, boolean active) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
@@ -50,7 +60,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.emergencyPhoneNumber = emergencyPhoneNumber;
         this.address = address;
-        this.role = role;
+        this.roles = roles;
         this.active = active;
     }
 
@@ -126,12 +136,12 @@ public class User {
         this.address = address;
     }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return Collections.unmodifiableSet(this.roles);
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void addRoles(Role role) {
+        this.roles.add(role);
     }
 
     public boolean isActive() {
