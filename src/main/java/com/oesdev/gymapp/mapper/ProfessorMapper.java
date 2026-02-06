@@ -22,7 +22,7 @@ public class ProfessorMapper {
     public ProfessorProfile toEntity(CreateProfessorRequest request) {
 
         return new ProfessorProfile(
-                Status.ACTIVE, this.toUser(request.getUser())
+                this.toUser(request.getUser())
         );
 
     }
@@ -123,28 +123,30 @@ public class ProfessorMapper {
 
     }
 
-    private UserDetailsResponse toUserResponse(User response) {
+    private UserDetailsResponse toUserResponse(User userEntity) {
 
         UserDetailsResponse userResponse = new UserDetailsResponse();
-        userResponse.setName(response.getName());
-        userResponse.setLastname(response.getLastname());
-        userResponse.setDni(response.getDni());
-        userResponse.setEmail(response.getEmail());
-        userResponse.setPhoneNumber(response.getPhoneNumber());
-        userResponse.setEmergencyPhoneNumber(response.getEmergencyPhoneNumber());
-        userResponse.setAddress(this.toAddressResponse(response.getAddress()));
+
+        userResponse.setName(userEntity.getName());
+        userResponse.setLastname(userEntity.getLastname());
+        userResponse.setDni(userEntity.getDni());
+        userResponse.setEmail(userEntity.getEmail());
+        userResponse.setPhoneNumber(userEntity.getPhoneNumber());
+        userResponse.setEmergencyPhoneNumber(userEntity.getEmergencyPhoneNumber());
+        userResponse.setAddress(this.toAddressResponse(userEntity.getAddress()));
 
         return userResponse;
 
     }
 
-    private AddressDetailsResponse toAddressResponse(Address response) {
+    private AddressDetailsResponse toAddressResponse(Address addressEntity) {
 
         AddressDetailsResponse addressResponse = new AddressDetailsResponse();
-        addressResponse.setStreet(response.getStreet());
-        addressResponse.setNumber(response.getNumber());
-        addressResponse.setCity(response.getCity());
-        addressResponse.setCountry(response.getCountry());
+
+        addressResponse.setStreet(addressEntity.getStreet());
+        addressResponse.setNumber(addressEntity.getNumber());
+        addressResponse.setCity(addressEntity.getCity());
+        addressResponse.setCountry(addressEntity.getCountry());
 
         return addressResponse;
     }

@@ -43,11 +43,10 @@ public class ProfessorProfile {
 
     public ProfessorProfile() {}
 
-    public ProfessorProfile(Status status, User user) {
+    public ProfessorProfile(User user) {
         this.createdRoutines = new ArrayList<>();
         this.specialties = new ArrayList<>();
         this.availability = new ArrayList<>();
-        this.status = status;
         this.user = user;
     }
 

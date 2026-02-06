@@ -3,6 +3,8 @@ package com.oesdev.gymapp.dto.response;
 import com.oesdev.gymapp.enums.Role;
 import lombok.*;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
@@ -17,5 +19,7 @@ public class UserDetailsResponse {
     private String phoneNumber;
     private String emergencyPhoneNumber;
     private AddressDetailsResponse address;
+    private Set<Role> roles;
+    private boolean active;
 
 }

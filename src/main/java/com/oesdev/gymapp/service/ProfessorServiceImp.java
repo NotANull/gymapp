@@ -14,7 +14,10 @@ import com.oesdev.gymapp.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,12 +37,27 @@ public class ProfessorServiceImp implements IProfessorService{
     @Transactional
     public ProfessorDetailsResponse createProfessor(CreateProfessorRequest request) {
 
-        ProfessorProfile professorEntity = this.professorMapper.toEntity(request);
+        /*ProfessorProfile professorEntity = this.professorMapper.toEntity(request);
 
         User userEntity = professorEntity.getUser();
         userEntity.setActive(true);
         userEntity.addRoles(Role.PROFESSOR);
 
+        professorEntity.setStatus(Status.ACTIVE);*/
+
+        Optional<User> existingUser = iUserRepository.findByDni(request.getUser().getDni());
+
+        User userEntity;
+        if (existingUser.isPresent()) {
+            userEntity = existingUser.get();
+            userEntity.addRoles(Role.PROFESSOR);
+            userEntity.setActive(true);
+        } else {
+            userEntity = this.professorMapper.toEntity(request.getUser());
+        }
+
+        ProfessorProfile professorEntity = new ProfessorProfile();
+        professorEntity.setUser(userEntity);
         professorEntity.setStatus(Status.ACTIVE);
 
         this.iUserRepository.save(userEntity);
