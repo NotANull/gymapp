@@ -46,8 +46,8 @@ public class User {
     @Column(name = "role")
     private Set<Role> roles = new HashSet<>();
 
-    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean active = true; //Only for allow or deny access
+    @Column(nullable = false)
+    private boolean active; //Only for allow or deny access
 
     public User() {}
 

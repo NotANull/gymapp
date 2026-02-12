@@ -6,6 +6,7 @@ import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
 import com.oesdev.gymapp.dto.response.UserDetailsResponse;
 import com.oesdev.gymapp.entity.*;
+import com.oesdev.gymapp.mapper.UserMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,17 +14,19 @@ import java.time.LocalDate;
 @Component
 public class CustomerMapper {
 
+    private final UserMapper userMapper = new UserMapper();
+
     public CustomerProfile toCustomerProfile(CreateCustomerRequest request) {
 
         CustomerProfile customerEntity = new CustomerProfile();
 
-        Address addressEntity = this.toAddress(request.getUser().getAddress());
+        //Address addressEntity = this.toAddress(request.getUser().getAddress());
 
-        User userEntity = this.toUser(request.getUser());
-        userEntity.setAddress(addressEntity);
+        //User userEntity = this.toUser(request.getUser());
+        //userEntity.setAddress(addressEntity);
 
         customerEntity.setEnrollmentDate(LocalDate.now());
-        customerEntity.setUser(userEntity);
+        customerEntity.setUser(this.userMapper.toUserEntity(request.getUser()));
         return customerEntity;
     }
 
@@ -36,7 +39,7 @@ public class CustomerMapper {
         membershipResponse.setPlanName(entity.getMembership().getPlanName());
         membershipResponse.setPrice(entity.getMembership().getPrice());
 
-        UserDetailsResponse userResponse = new UserDetailsResponse(); //✔
+        /*UserDetailsResponse userResponse = new UserDetailsResponse(); //✔
         userResponse.setId(entity.getUser().getId());
         userResponse.setName(entity.getUser().getName());
         userResponse.setLastname(entity.getUser().getLastname());
@@ -51,12 +54,12 @@ public class CustomerMapper {
         addressResponse.setCity(entity.getUser().getAddress().getCity());
         addressResponse.setCountry(entity.getUser().getAddress().getCountry());
 
-        userResponse.setAddress(addressResponse);
+        userResponse.setAddress(addressResponse);*/
 
         response.setId(entity.getId());
         response.setMembership(membershipResponse);
-        response.setUser(userResponse);
-        response.setStatus(entity.getUser().getStatus());
+        response.setUser(this.userMapper.toUserResponse(entity.getUser()));
+        //response.setStatus(entity.getUser().getStatus()); //get status from CustomerProfile(future refactor)!
 
         return response;
     }

@@ -9,6 +9,7 @@ import com.oesdev.gymapp.enums.Role;
 import com.oesdev.gymapp.enums.Status;
 import com.oesdev.gymapp.exception.ProfessorNotFoundException;
 import com.oesdev.gymapp.mapper.ProfessorMapper;
+import com.oesdev.gymapp.mapper.UserMapper;
 import com.oesdev.gymapp.repository.IProfessorRepository;
 import com.oesdev.gymapp.repository.IUserRepository;
 import org.springframework.stereotype.Service;
@@ -26,41 +27,37 @@ public class ProfessorServiceImp implements IProfessorService{
     private final IProfessorRepository iProfessorRepository;
     private final IUserRepository iUserRepository;
     private final ProfessorMapper professorMapper;
+    private final UserMapper userMapper;
 
-    public ProfessorServiceImp(IProfessorRepository iProfessorRepository, IUserRepository iUserRepository, ProfessorMapper professorMapper) {
+    public ProfessorServiceImp(IProfessorRepository iProfessorRepository, IUserRepository iUserRepository, ProfessorMapper professorMapper, UserMapper userMapper) {
         this.iProfessorRepository = iProfessorRepository;
         this.iUserRepository = iUserRepository;
         this.professorMapper = professorMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
     @Transactional
     public ProfessorDetailsResponse createProfessor(CreateProfessorRequest request) {
 
-        /*ProfessorProfile professorEntity = this.professorMapper.toEntity(request);
-
-        User userEntity = professorEntity.getUser();
-        userEntity.setActive(true);
-        userEntity.addRoles(Role.PROFESSOR);
-
-        professorEntity.setStatus(Status.ACTIVE);*/
-
         Optional<User> existingUser = iUserRepository.findByDni(request.getUser().getDni());
 
         User userEntity;
-        if (existingUser.isPresent()) {
+
+        if(existingUser.isPresent()) {
             userEntity = existingUser.get();
-            userEntity.addRoles(Role.PROFESSOR);
-            userEntity.setActive(true);
         } else {
-            userEntity = this.professorMapper.toEntity(request.getUser());
+            userEntity = this.userMapper.toUserEntity(request.getUser());
+            this.iUserRepository.save(userEntity);
         }
 
-        ProfessorProfile professorEntity = new ProfessorProfile();
+        //Test after use iUserRepository.save()
+        userEntity.addRoles(Role.PROFESSOR);
+        userEntity.setActive(true);
+
+        ProfessorProfile professorEntity = this.professorMapper.toEntity(request);
         professorEntity.setUser(userEntity);
         professorEntity.setStatus(Status.ACTIVE);
-
-        this.iUserRepository.save(userEntity);
         this.iProfessorRepository.save(professorEntity);
 
         return this.professorMapper.toResponse(professorEntity);
