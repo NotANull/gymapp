@@ -2,6 +2,8 @@ package com.oesdev.gymapp.mapper;
 
 import com.oesdev.gymapp.dto.request.CreateAddressRequest;
 import com.oesdev.gymapp.dto.request.CreateUserRequest;
+import com.oesdev.gymapp.dto.request.UpdateAddressRequest;
+import com.oesdev.gymapp.dto.request.UpdateUserRequest;
 import com.oesdev.gymapp.dto.response.AddressDetailsResponse;
 import com.oesdev.gymapp.dto.response.UserDetailsResponse;
 import com.oesdev.gymapp.entity.Address;
@@ -46,6 +48,35 @@ public class UserMapper {
         return userResponse;
     }
 
+    public void updateUser(User user, UpdateUserRequest userRequest) {
+
+        if (userRequest.getName() != null) {
+            user.setName(userRequest.getName());
+        }
+        if (userRequest.getLastname() != null) {
+            user.setLastname(userRequest.getLastname());
+        }
+        if (userRequest.getDni() != null) {
+            user.setDni(userRequest.getDni());
+        }
+        if (userRequest.getPassword() != null) {
+            user.setPassword(userRequest.getPassword());
+        }
+        if (userRequest.getEmail() != null) {
+            user.setEmail(userRequest.getEmail());
+        }
+        if (userRequest.getPhoneNumber() != null) {
+            user.setPhoneNumber(userRequest.getPhoneNumber());
+        }
+        if (userRequest.getEmergencyPhoneNumber() != null) {
+            user.setEmergencyPhoneNumber(userRequest.getEmergencyPhoneNumber());
+        }
+        if(userRequest.getAddress() != null){
+            this.updateAddress(user.getAddress(), userRequest.getAddress());
+        }
+
+    }
+
     private Address toAddressEntity(CreateAddressRequest addressRequest) {
 
         return new Address(
@@ -65,6 +96,23 @@ public class UserMapper {
                 addressEntity.getCity(),
                 addressEntity.getCountry()
         );
+
+    }
+
+    private void updateAddress(Address address, UpdateAddressRequest addressRequest) {
+
+        if(addressRequest.getStreet() != null) {
+            address.setStreet(addressRequest.getStreet());
+        }
+        if(addressRequest.getNumber() != null) {
+            address.setNumber(addressRequest.getNumber());
+        }
+        if(addressRequest.getCity() != null) {
+            address.setCity(addressRequest.getCity());
+        }
+        if(addressRequest.getCountry() != null) {
+            address.setCountry(addressRequest.getCountry());
+        }
 
     }
 
