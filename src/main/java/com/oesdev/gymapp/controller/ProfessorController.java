@@ -3,6 +3,7 @@ package com.oesdev.gymapp.controller;
 import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
 import com.oesdev.gymapp.dto.request.UpdateProfessorRequest;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
+import com.oesdev.gymapp.enums.Status;
 import com.oesdev.gymapp.service.IProfessorService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -38,8 +39,9 @@ public class ProfessorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProfessorDetailsResponse>> getProfessors() {
-        return ResponseEntity.ok(this.iProfessorService.getProfessors());
+    public ResponseEntity<List<ProfessorDetailsResponse>> getProfessorsByStatus(@RequestParam(required = false) Status status) {
+        List<ProfessorDetailsResponse> response = (status != null) ? iProfessorService.getProfessorsByStatus(status) : iProfessorService.getProfessors();
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("{id}")
@@ -48,6 +50,12 @@ public class ProfessorController {
         ProfessorDetailsResponse response = this.iProfessorService.updateProfessor(id, request);
         return ResponseEntity.ok(response);
 
+    }
+
+    @PatchMapping("{id}/ban")
+    public ResponseEntity<Void> banProfessor(@PathVariable Long id) {
+        this.iProfessorService.banProfessor(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{id}")
