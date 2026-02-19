@@ -103,7 +103,23 @@ public class ProfessorServiceImp implements IProfessorService{
     public void deleteProfessor(Long id) {
 
         ProfessorProfile professorEntity = this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
-        professorEntity.setStatus(Status.CANCELLED);
+        if(professorEntity.getStatus() == Status.INACTIVE) {
+            return;
+        }
+
+        professorEntity.setStatus(Status.INACTIVE);
+        this.iProfessorRepository.save(professorEntity);
+
+    }
+
+    @Override
+    @Transactional
+    public void banProfessor(Long id) {
+
+        ProfessorProfile professorEntity = this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
+        professorEntity.setStatus(Status.BANNED);
+        User userEntity = professorEntity.getUser();
+        this.iUserRepository.save(userEntity);
         this.iProfessorRepository.save(professorEntity);
 
     }
