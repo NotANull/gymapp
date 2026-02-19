@@ -21,4 +21,6 @@ public interface IProfessorService {
 
     void deleteProfessor(Long id);
 
+    void banProfessor(Long id);
+
 }
