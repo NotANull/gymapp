@@ -1,21 +1,20 @@
 package com.oesdev.gymapp.mapper;
 
 import com.oesdev.gymapp.dto.request.*;
-import com.oesdev.gymapp.dto.response.AddressDetailsResponse;
-import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
-import com.oesdev.gymapp.dto.response.MembershipDetailsResponse;
-import com.oesdev.gymapp.dto.response.UserDetailsResponse;
+import com.oesdev.gymapp.dto.response.*;
 import com.oesdev.gymapp.entity.*;
 import com.oesdev.gymapp.mapper.UserMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class CustomerMapper {
 
     private final UserMapper userMapper = new UserMapper();
+    private final RoutineMapper routineMapper = new RoutineMapper();
 
     public CustomerProfile toCustomerProfile(CreateCustomerRequest request) {
 
@@ -35,30 +34,22 @@ public class CustomerMapper {
 
         CustomerDetailsResponse response = new CustomerDetailsResponse();
 
+        //VERIFICAR POR QUÉ ESTÁ MAL
+        List<RoutineDetailsResponse> routinesResponse = new ArrayList<>();
+        routinesResponse = new ArrayList<>(
+                entity.getAssignedRoutines().stream()
+                        .map(this.routineMapper::toRoutineResponse)
+                        .toList()
+        );
+
         MembershipDetailsResponse membershipResponse = new MembershipDetailsResponse(); //✔
         membershipResponse.setId(entity.getMembership().getId());
         membershipResponse.setPlanName(entity.getMembership().getPlanName());
         membershipResponse.setPrice(entity.getMembership().getPrice());
 
-        /*UserDetailsResponse userResponse = new UserDetailsResponse(); //✔
-        userResponse.setId(entity.getUser().getId());
-        userResponse.setName(entity.getUser().getName());
-        userResponse.setLastname(entity.getUser().getLastname());
-        userResponse.setDni(entity.getUser().getDni());
-        userResponse.setEmail(entity.getUser().getEmail());
-        userResponse.setPhoneNumber(entity.getUser().getPhoneNumber());
-        userResponse.setEmergencyPhoneNumber(entity.getUser().getEmergencyPhoneNumber());
-
-        AddressDetailsResponse addressResponse = new AddressDetailsResponse(); //✔
-        addressResponse.setStreet(entity.getUser().getAddress().getStreet());
-        addressResponse.setNumber(entity.getUser().getAddress().getNumber());
-        addressResponse.setCity(entity.getUser().getAddress().getCity());
-        addressResponse.setCountry(entity.getUser().getAddress().getCountry());
-
-        userResponse.setAddress(addressResponse);*/
-
         response.setId(entity.getId());
         response.setMembership(membershipResponse);
+        response.setAssignedRoutines(routinesResponse);
         response.setUser(this.userMapper.toUserResponse(entity.getUser()));
         response.setStatus(entity.getStatus());
 
@@ -116,33 +107,6 @@ public class CustomerMapper {
         if(request.getCountry() != null) {
             address.setCountry(request.getCountry());
         }
-
-    }
-
-    private User toUser(CreateUserRequest request) {
-
-        User user = new User();
-        user.setName(request.getName());
-        user.setLastname(request.getLastname());
-        user.setDni(request.getDni());
-        user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
-        user.setEmail(request.getEmail());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setEmergencyPhoneNumber(request.getEmergencyPhoneNumber());
-
-        return user;
-    }
-
-    private Address toAddress(CreateAddressRequest request) {
-
-        Address address = new Address();
-        address.setStreet(request.getStreet());
-        address.setNumber(request.getNumber());
-        address.setCity(request.getCity());
-        address.setCountry(request.getCountry());
-
-        return address;
 
     }
 
