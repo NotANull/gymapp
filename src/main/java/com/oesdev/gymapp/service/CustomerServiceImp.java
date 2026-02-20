@@ -5,18 +5,22 @@ import com.oesdev.gymapp.dto.request.UpdateCustomerRequest;
 import com.oesdev.gymapp.dto.response.CustomerDetailsResponse;
 import com.oesdev.gymapp.entity.CustomerProfile;
 import com.oesdev.gymapp.entity.Membership;
+import com.oesdev.gymapp.entity.User;
 import com.oesdev.gymapp.enums.Role;
 import com.oesdev.gymapp.enums.Status;
 import com.oesdev.gymapp.exception.CustomerNotFoundException;
 import com.oesdev.gymapp.exception.MembershipNotFoundException;
 import com.oesdev.gymapp.mapper.CustomerMapper;
+import com.oesdev.gymapp.mapper.UserMapper;
 import com.oesdev.gymapp.repository.ICustomerRepository;
 import com.oesdev.gymapp.repository.IMembershipRepository;
 import com.oesdev.gymapp.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,19 +30,21 @@ public class CustomerServiceImp implements ICustomerService{
     private final IMembershipRepository iMembershipRepository;
     private final IUserRepository iUserRepository;
     private final CustomerMapper customerMapper;
+    private final UserMapper userMapper;
 
-    public CustomerServiceImp(ICustomerRepository iCustomerRepository, IMembershipRepository iMembershipRepository, IUserRepository iUserRepository, CustomerMapper customerMapper) {
+    public CustomerServiceImp(ICustomerRepository iCustomerRepository, IMembershipRepository iMembershipRepository, IUserRepository iUserRepository, CustomerMapper customerMapper, UserMapper userMapper) {
         this.iCustomerRepository = iCustomerRepository;
         this.iMembershipRepository = iMembershipRepository;
         this.iUserRepository = iUserRepository;
         this.customerMapper = customerMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
     @Transactional
     public CustomerDetailsResponse createCustomer(CreateCustomerRequest request) {
 
-        Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
+        /*Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
 
         CustomerProfile customerEntity = this.customerMapper.toCustomerProfile(request);
         customerEntity.setStatus(Status.ACTIVE); //Once a customer pays for their membership, they can access their user account. Future check
@@ -46,6 +52,32 @@ public class CustomerServiceImp implements ICustomerService{
         this.iUserRepository.save(customerEntity.getUser());
 
         customerEntity.setMembership(membershipEntity);
+        this.iCustomerRepository.save(customerEntity);
+
+        return this.customerMapper.toCustomerResponse(customerEntity);*/
+
+        Optional<User> existingUser = this.iUserRepository.findByDni(request.getUser().getDni());
+
+        User userEntity;
+
+        if(existingUser.isPresent()){
+            userEntity = existingUser.get();
+        } else {
+            userEntity = this.userMapper.toUserEntity(request.getUser());
+            this.iUserRepository.save(userEntity);
+        }
+
+        userEntity.addRoles(Role.CUSTOMER);
+        userEntity.setActive(true);
+
+        CustomerProfile customerEntity = this.customerMapper.toCustomerProfile(request);
+
+        Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
+
+        customerEntity.setUser(userEntity);
+        customerEntity.setMembership(membershipEntity);
+        customerEntity.setStatus(Status.ACTIVE);
+        customerEntity.setEnrollmentDate(LocalDate.now());
         this.iCustomerRepository.save(customerEntity);
 
         return this.customerMapper.toCustomerResponse(customerEntity);

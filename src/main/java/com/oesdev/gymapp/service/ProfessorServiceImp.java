@@ -49,7 +49,6 @@ public class ProfessorServiceImp implements IProfessorService{
             this.iUserRepository.save(userEntity);
         }
 
-        //Test after use iUserRepository.save()
         userEntity.addRoles(Role.PROFESSOR);
         userEntity.setActive(true);
 

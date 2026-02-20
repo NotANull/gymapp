@@ -10,6 +10,7 @@ import com.oesdev.gymapp.mapper.UserMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class CustomerMapper {
@@ -59,7 +60,7 @@ public class CustomerMapper {
         response.setId(entity.getId());
         response.setMembership(membershipResponse);
         response.setUser(this.userMapper.toUserResponse(entity.getUser()));
-        //response.setStatus(entity.getUser().getStatus()); //get status from CustomerProfile(future refactor)!
+        response.setStatus(entity.getStatus());
 
         return response;
     }
