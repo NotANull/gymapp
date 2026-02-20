@@ -29,4 +29,12 @@ public class Routine {
     private double load;
     private int frequency;
 
+    public Routine(String name, int sets, String reps, int rest, double load, int frequency) {
+        this.name = name;
+        this.sets = sets;
+        this.reps = reps;
+        this.rest = rest;
+        this.load = load;
+        this.frequency = frequency;
+    }
 }
