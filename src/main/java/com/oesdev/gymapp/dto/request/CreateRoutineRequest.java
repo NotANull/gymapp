@@ -16,9 +16,8 @@ public class CreateRoutineRequest {
     @Positive
     private int sets;
 
-    @NotBlank
-    @Size(min = 3, max = 50)
-    private String reps;
+    @Positive
+    private int reps;
 
     @PositiveOrZero
     private int rest;
