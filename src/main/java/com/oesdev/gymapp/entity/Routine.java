@@ -24,12 +24,12 @@ public class Routine {
 
     private String name;
     private int sets;
-    private String reps;
+    private int reps;
     private int rest;
     private double load;
     private int frequency;
 
-    public Routine(String name, int sets, String reps, int rest, double load, int frequency) {
+    public Routine(String name, int sets, int reps, int rest, double load, int frequency) {
         this.name = name;
         this.sets = sets;
         this.reps = reps;
