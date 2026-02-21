@@ -1,16 +1,21 @@
 package com.oesdev.gymapp.service;
 
 import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
+import com.oesdev.gymapp.dto.request.CreateRoutineRequest;
 import com.oesdev.gymapp.dto.request.UpdateProfessorRequest;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
+import com.oesdev.gymapp.dto.response.RoutineDetailsResponse;
 import com.oesdev.gymapp.entity.ProfessorProfile;
+import com.oesdev.gymapp.entity.Routine;
 import com.oesdev.gymapp.entity.User;
 import com.oesdev.gymapp.enums.Role;
 import com.oesdev.gymapp.enums.Status;
 import com.oesdev.gymapp.exception.ProfessorNotFoundException;
 import com.oesdev.gymapp.mapper.ProfessorMapper;
+import com.oesdev.gymapp.mapper.RoutineMapper;
 import com.oesdev.gymapp.mapper.UserMapper;
 import com.oesdev.gymapp.repository.IProfessorRepository;
+import com.oesdev.gymapp.repository.IRoutineRepository;
 import com.oesdev.gymapp.repository.IUserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +29,18 @@ public class ProfessorServiceImp implements IProfessorService{
 
     private final IProfessorRepository iProfessorRepository;
     private final IUserRepository iUserRepository;
+    private final IRoutineRepository iRoutineRepository;
     private final ProfessorMapper professorMapper;
     private final UserMapper userMapper;
+    private final RoutineMapper routineMapper;
 
-    public ProfessorServiceImp(IProfessorRepository iProfessorRepository, IUserRepository iUserRepository, ProfessorMapper professorMapper, UserMapper userMapper) {
+    public ProfessorServiceImp(IProfessorRepository iProfessorRepository, IUserRepository iUserRepository, IRoutineRepository iRoutineRepository, ProfessorMapper professorMapper, UserMapper userMapper, RoutineMapper routineMapper) {
         this.iProfessorRepository = iProfessorRepository;
         this.iUserRepository = iUserRepository;
+        this.iRoutineRepository = iRoutineRepository;
         this.professorMapper = professorMapper;
         this.userMapper = userMapper;
+        this.routineMapper = routineMapper;
     }
 
     @Override
@@ -58,6 +67,20 @@ public class ProfessorServiceImp implements IProfessorService{
         this.iProfessorRepository.save(professorEntity);
 
         return this.professorMapper.toResponse(professorEntity);
+    }
+
+    @Override
+    @Transactional
+    public RoutineDetailsResponse createRoutine(CreateRoutineRequest request, Long id) {
+
+        //Buscar la forma de chequear si el id que trae de la request existe en vez de traerme la entidad entera
+        ProfessorProfile professorEntity = this.iProfessorRepository.findById(id).orElseThrow(() -> new ProfessorNotFoundException(id));
+
+        Routine routineEntity = this.routineMapper.toRoutineEntity(request);
+        routineEntity.setProfessor(professorEntity);
+        this.iRoutineRepository.save(routineEntity);
+
+        return this.routineMapper.toRoutineResponse(routineEntity);
     }
 
     @Override

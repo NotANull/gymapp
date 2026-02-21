@@ -1,8 +1,10 @@
 package com.oesdev.gymapp.service;
 
 import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
+import com.oesdev.gymapp.dto.request.CreateRoutineRequest;
 import com.oesdev.gymapp.dto.request.UpdateProfessorRequest;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
+import com.oesdev.gymapp.dto.response.RoutineDetailsResponse;
 import com.oesdev.gymapp.enums.Status;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
 public interface IProfessorService {
 
     ProfessorDetailsResponse createProfessor(CreateProfessorRequest request);
+
+    RoutineDetailsResponse createRoutine(CreateRoutineRequest request, Long id);
 
     ProfessorDetailsResponse getProfessor(Long id);
 
