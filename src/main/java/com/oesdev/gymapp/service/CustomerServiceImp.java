@@ -44,18 +44,6 @@ public class CustomerServiceImp implements ICustomerService{
     @Transactional
     public CustomerDetailsResponse createCustomer(CreateCustomerRequest request) {
 
-        /*Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
-
-        CustomerProfile customerEntity = this.customerMapper.toCustomerProfile(request);
-        customerEntity.setStatus(Status.ACTIVE); //Once a customer pays for their membership, they can access their user account. Future check
-        customerEntity.getUser().addRoles(Role.CUSTOMER); //When a customer is created, their role must be assigned
-        this.iUserRepository.save(customerEntity.getUser());
-
-        customerEntity.setMembership(membershipEntity);
-        this.iCustomerRepository.save(customerEntity);
-
-        return this.customerMapper.toCustomerResponse(customerEntity);*/
-
         Optional<User> existingUser = this.iUserRepository.findByDni(request.getUser().getDni());
 
         User userEntity;
@@ -70,7 +58,7 @@ public class CustomerServiceImp implements ICustomerService{
         userEntity.addRoles(Role.CUSTOMER);
         userEntity.setActive(true);
 
-        CustomerProfile customerEntity = this.customerMapper.toCustomerProfile(request);
+        CustomerProfile customerEntity = this.customerMapper.toCustomerEntity(request);
 
         Membership membershipEntity = this.iMembershipRepository.findById(request.getMembershipId()).orElseThrow(() -> new MembershipNotFoundException(request.getMembershipId()));
 
