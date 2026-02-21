@@ -3,27 +3,28 @@ package com.oesdev.gymapp.mapper;
 import com.oesdev.gymapp.dto.request.*;
 import com.oesdev.gymapp.dto.response.*;
 import com.oesdev.gymapp.entity.*;
-import com.oesdev.gymapp.mapper.UserMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
 public class CustomerMapper {
 
-    private final UserMapper userMapper = new UserMapper();
-    private final RoutineMapper routineMapper = new RoutineMapper();
+    private final UserMapper userMapper;
+    private final RoutineMapper routineMapper;
+    private final MembershipMapper membershipMapper;
 
-    public CustomerProfile toCustomerProfile(CreateCustomerRequest request) {
+    public CustomerMapper(UserMapper userMapper, RoutineMapper routineMapper, MembershipMapper membershipMapper) {
+        this.userMapper = userMapper;
+        this.routineMapper = routineMapper;
+        this.membershipMapper = membershipMapper;
+    }
+
+    public CustomerProfile toCustomerEntity(CreateCustomerRequest request) {
 
         CustomerProfile customerEntity = new CustomerProfile();
-
-        //Address addressEntity = this.toAddress(request.getUser().getAddress());
-
-        //User userEntity = this.toUser(request.getUser());
-        //userEntity.setAddress(addressEntity);
 
         customerEntity.setEnrollmentDate(LocalDate.now());
         customerEntity.setUser(this.userMapper.toUserEntity(request.getUser()));
@@ -32,23 +33,20 @@ public class CustomerMapper {
 
     public CustomerDetailsResponse toCustomerResponse(CustomerProfile entity) {
 
+        if (entity == null) {
+            return null;
+        }
+
         CustomerDetailsResponse response = new CustomerDetailsResponse();
 
-        //VERIFICAR POR QUÉ ESTÁ MAL
-        List<RoutineDetailsResponse> routinesResponse = new ArrayList<>();
-        routinesResponse = new ArrayList<>(
-                entity.getAssignedRoutines().stream()
+        List<RoutineDetailsResponse> routinesResponse = (entity.getAssignedRoutines() != null)
+                ? entity.getAssignedRoutines().stream()
                         .map(this.routineMapper::toRoutineResponse)
                         .toList()
-        );
-
-        MembershipDetailsResponse membershipResponse = new MembershipDetailsResponse(); //✔
-        membershipResponse.setId(entity.getMembership().getId());
-        membershipResponse.setPlanName(entity.getMembership().getPlanName());
-        membershipResponse.setPrice(entity.getMembership().getPrice());
+                : Collections.emptyList();
 
         response.setId(entity.getId());
-        response.setMembership(membershipResponse);
+        response.setMembership(this.membershipMapper.toMembershipResponse(entity.getMembership()));
         response.setAssignedRoutines(routinesResponse);
         response.setUser(this.userMapper.toUserResponse(entity.getUser()));
         response.setStatus(entity.getStatus());
