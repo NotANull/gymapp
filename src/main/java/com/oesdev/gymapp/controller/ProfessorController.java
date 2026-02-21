@@ -1,8 +1,10 @@
 package com.oesdev.gymapp.controller;
 
 import com.oesdev.gymapp.dto.request.CreateProfessorRequest;
+import com.oesdev.gymapp.dto.request.CreateRoutineRequest;
 import com.oesdev.gymapp.dto.request.UpdateProfessorRequest;
 import com.oesdev.gymapp.dto.response.ProfessorDetailsResponse;
+import com.oesdev.gymapp.dto.response.RoutineDetailsResponse;
 import com.oesdev.gymapp.enums.Status;
 import com.oesdev.gymapp.service.IProfessorService;
 import jakarta.validation.Valid;
@@ -29,6 +31,15 @@ public class ProfessorController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
+
+    @PostMapping("/{id}/routines")
+    public ResponseEntity<RoutineDetailsResponse> createRoutine(@RequestBody @Valid CreateRoutineRequest request, @PathVariable Long id) {
+
+        RoutineDetailsResponse response = this.iProfessorService.createRoutine(request, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+    }
+
 
     @GetMapping("{id}")
     public ResponseEntity<ProfessorDetailsResponse> getProfessor(@PathVariable Long id) {
