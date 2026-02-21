@@ -12,7 +12,11 @@ import java.util.List;
 @Component
 public class ProfessorMapper {
 
-    private final UserMapper userMapper = new UserMapper();
+    private final UserMapper userMapper;
+
+    public ProfessorMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     public ProfessorProfile toEntity(CreateProfessorRequest request) {
 
